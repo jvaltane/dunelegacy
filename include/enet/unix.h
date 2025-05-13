@@ -8,9 +8,14 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <sys/socket.h>
 #include <netinet/in.h>
-#include <unistd.h>
+#ifndef __MORPHOS__
+# include <sys/socket.h>
+#endif
+#include <netinet/in.h>
+#ifndef __MORPHOS__
+# include <unistd.h>
+#endif
 
 #ifdef MSG_MAXIOVLEN
 #define ENET_BUFFER_MAXIMUM MSG_MAXIOVLEN

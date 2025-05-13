@@ -1,0 +1,52 @@
+MorphOS Version 0.97.02
+-----------------------
+
+This version is base on last commit on sourceforge at 2025-01-26 (6ea9ac)
+of DuneLegacy 0.97.02. Same version than latest Windows version.
+
+Features
+
+- full SDL2 port
+- single game
+- LAN game. Tested with Windows port
+- internet play might work, if you find working server
+
+Requirements
+
+- latest SDL2 libraries (tested and compiled with 2.32.0)
+- MorphOS version 3.19 (should also work with 3.18, see also SDL2 libraries)
+- Dune II (PC version) PAK files
+
+Changelog
+
+- fix code to work with MorphOS
+- fix configuration.ac work with cross compilation for MorphOS
+- add cross compilation sccript for MorphOS
+- cross compiled with GCC 11.3
+
+Install
+
+Copy all PAK files from Dune II (PC version) to data directory
+
+Other
+
+Icons and skeleton of this readme is shamelesly rippped from
+DuneLegacy_0.96.5b.lha package by beworld.
+
+Bugs
+
+Probably same knows bugs than SDL1 version:
+- War Fog... very slow :(
+- might also have some graphics bugs, reason for these is alpha channel
+  weirdness with SDL2
+
+License
+
+GPLv2
+
+See: COPYING
+
+Contact
+
+Joni Valtanen
+jvaltane@kapsi.fi

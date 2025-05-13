@@ -51,6 +51,7 @@ dunelegacy_SOURCES =	AStarSearch.cpp\
 						enet/protocol.c\
 						enet/unix.c\
 						enet/win32.c\
+						enet/inet_aton.c\
 						$(NULL)\
 						fixmath/fix16.c\
 						fixmath/fix16_exp.c\

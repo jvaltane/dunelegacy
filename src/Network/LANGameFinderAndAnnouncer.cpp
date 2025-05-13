@@ -31,7 +31,11 @@
 #pragma pack(push, 1)
 #define PACKEDDATASTRUCTURE
 #elif defined(__GNUC__)
+#ifdef ENABLE_NET_STRUCT_PACKING
 #define PACKEDDATASTRUCTURE __attribute__ ((packed))
+#else
+#define PACKEDDATASTRUCTURE
+#endif
 #else
 #define PACKEDDATASTRUCTURE
 #endif

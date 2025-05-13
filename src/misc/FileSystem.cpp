@@ -38,7 +38,15 @@
 
 std::list<std::string> getFileNamesList(const std::string& directory, const std::string& extension, bool IgnoreCase, FileListOrder fileListOrder)
 {
+#ifdef __MORPHOS__
+    std::string dir = directory;
+    if (dir.size() > 0 && dir[dir.size()-1] == '/') {
+        dir.resize(dir.size() - 1);
+    }
+    std::list<FileInfo> files = getFileList(dir, extension, IgnoreCase, fileListOrder);
+#else
     std::list<FileInfo> files = getFileList(directory, extension, IgnoreCase, fileListOrder);
+#endif
 
     std::list<std::string> fileNames;
 
@@ -182,7 +190,7 @@ std::list<FileInfo> getFileList(const std::string& directory, const std::string&
                 std::string fullpath = directory + "/" + filename;
                 struct stat fdata;
                 if(stat(fullpath.c_str(), &fdata) != 0) {
-                    SDL_Log("stat(): %s", strerror(errno));
+                    SDL_Log("stat(%s): %s", fullpath.c_str(), strerror(errno));
                     continue;
                 }
                 Files.push_back(FileInfo(filename, fdata.st_size, fdata.st_mtime));
@@ -409,7 +417,11 @@ std::string getDuneLegacyDataDir() {
 
         std::string dataDir;
 #ifdef DUNELEGACY_DATADIR
+#ifdef __MORPHOS__
+        dataDir = "PROGDIR:" DUNELEGACY_DATADIR;
+#else
         dataDir = DUNELEGACY_DATADIR;
+#endif
 #endif
 
         if((dataDir.empty()) || (dataDir == ".") || (dataDir == "./") || (dataDir == ".\\")) {

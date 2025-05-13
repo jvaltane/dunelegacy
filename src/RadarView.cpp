@@ -38,12 +38,19 @@ RadarView::RadarView()
 {
     radarStaticAnimation = pGFXManager->getUIGraphic(UI_RadarAnimation);
 
+#ifdef __MORPHOS__
+    radarSurface = sdl2::surface_ptr{ SDL_CreateRGBSurface(0, 128, 128, SCREEN_BPP, AMASK, BMASK, GMASK, RMASK) };
+#else
     radarSurface = sdl2::surface_ptr{ SDL_CreateRGBSurface(0, 128, 128, SCREEN_BPP, RMASK, GMASK, BMASK, AMASK) };
+#endif
     if(radarSurface == nullptr) {
         THROW(std::runtime_error, "RadarView::RadarView(): Cannot create new surface!");
     }
+#ifdef __MORPHOS__
+    SDL_FillRect(radarSurface.get(), nullptr, COLOR_RGBA(0,0,0,0));
+#else
     SDL_FillRect(radarSurface.get(), nullptr, COLOR_BLACK);
-
+#endif
     radarTexture = sdl2::texture_ptr{ SDL_CreateTexture(renderer, SCREEN_FORMAT, SDL_TEXTUREACCESS_STREAMING, 128, 128) };
 }
 

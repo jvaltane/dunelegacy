@@ -80,6 +80,12 @@ static inline fmt::internal::Null<> strerror_r(int, char *, ...) {
 static inline fmt::internal::Null<> strerror_s(char *, std::size_t, ...) {
   return fmt::internal::Null<>();
 }
+#ifdef __MORPHOS__
+int swprintf(wchar_t *__restrict wcs, size_t maxlen, const wchar_t *__restrict format, ...)
+{
+    return 0;
+}
+#endif
 
 namespace fmt {
 

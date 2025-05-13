@@ -1098,7 +1098,10 @@ void Game::runMainLoop() {
 
         SDL_SetRenderTarget(renderer, nullptr);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+#ifndef __MORPHOS__
+        // Blinking/flashing happens with MorphOS
         SDL_RenderClear(renderer);
+#endif
         SDL_RenderCopy(renderer, screenTexture, nullptr, nullptr);
         SDL_RenderPresent(renderer);
 

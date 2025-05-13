@@ -437,7 +437,9 @@ int fnkdat(const char* target, char* buffer, int len, int flags) {
    }
 
    if (rawflags == FNKDAT_USER) {
-
+#ifdef __MORPHOS__
+      FNKDAT_S(strncat(buffer, "PROGDIR:config", len));
+#else
 #ifdef __APPLE__
       getMacApplicationSupportFolder(buffer, len);
       FNKDAT_S(strncat(buffer, "/Dune Legacy", len));
@@ -458,6 +460,7 @@ int fnkdat(const char* target, char* buffer, int len, int flags) {
             FNKDAT_S(strncat(buffer, "/" PACKAGE, len));
          }
       }
+#endif
 #endif
 
    } else if (rawflags == FNKDAT_CONF) {

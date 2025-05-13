@@ -1,4 +1,4 @@
-AC_INIT(dunelegacy, 0.96.4, http://dunelegacy.sourceforge.net)
+AC_INIT([dunelegacy],[0.97.02],[http://dunelegacy.sourceforge.net])
 
 AC_CANONICAL_BUILD
 
@@ -19,8 +19,14 @@ fi
 AC_SUBST(dunelegacydatadir)
 
 dnl Some flags for gcc
+if test "${host}" = "ppc-morphos" ; then
+CXXFLAGS="-std=c++14 -pthread -O3 -pipe -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-shift-negative-value -Wno-unknown-pragmas -D__STDC_FORMAT_MACROS -DNDEBUG"
+CFLAGS="-std=c99 -pthread -O3 -pipe -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-shift-negative-value -Wno-unknown-pragmas -D__STDC_FORMAT_MACROS -DNDEBUG"
+else
 CXXFLAGS="-std=c++14 -pthread -fPIC -O3 -pipe -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-shift-negative-value -Wno-unknown-pragmas -D__STDC_FORMAT_MACROS -DNDEBUG"
 CFLAGS="-std=c99 -pthread -fPIC -O3 -pipe -pedantic -Wall -Wextra -Wno-unused-parameter -Wno-shift-negative-value -Wno-unknown-pragmas -D__STDC_FORMAT_MACROS -DNDEBUG"
+fi
+
 dnl Additional flags: -Wconversion -Wno-sign-conversion -Wlogical-op
 
 dnl Some flags for clang
@@ -45,7 +51,6 @@ dnl PKG_CHECK_MODULES(SDL, sdl2 SDL2_mixer)
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
-
 dnl Check for SDL_mixer library.
 AC_CHECK_LIB(SDL2_mixer, 
        Mix_OpenAudio, 
@@ -67,6 +72,7 @@ AC_CHECK_FUNC(poll, [AC_DEFINE(HAS_POLL)])
 AC_CHECK_FUNC(fcntl, [AC_DEFINE(HAS_FCNTL)])
 AC_CHECK_FUNC(inet_pton, [AC_DEFINE(HAS_INET_PTON)])
 AC_CHECK_FUNC(inet_ntop, [AC_DEFINE(HAS_INET_NTOP)])
+AC_CHECK_FUNC(inet_aton, [AC_DEFINE(HAS_INET_ATON)])
 
 AC_CHECK_MEMBER(struct msghdr.msg_flags, [AC_DEFINE(HAS_MSGHDR_FLAGS)], , [#include <sys/socket.h>])
 

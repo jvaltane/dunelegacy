@@ -52,12 +52,22 @@ typedef int avoid_warning_that_ISO_C_forbids_an_empty_translation_unit;
 #endif
 
 #ifndef HAS_SOCKLEN_T
+#ifdef __MORPHOS__
+typedef long int socklen_t;
+#else
 typedef int socklen_t;
+#endif
 #endif
 
 #ifndef MSG_NOSIGNAL
 #define MSG_NOSIGNAL 0
 #endif
+
+#ifdef __MORPHOS__
+#include <sys/filio.h>
+#include <clib/socket_protos.h>
+#endif
+
 
 static enet_uint32 timeBase = 0;
 
@@ -248,10 +258,14 @@ enet_socket_set_option (ENetSocket socket, ENetSocketOption option, int value)
     switch (option)
     {
         case ENET_SOCKOPT_NONBLOCK:
+#ifdef __MORPHOS__
+            result = IoctlSocket (socket, FIONBIO, (char *) & value);
+#else
 #ifdef HAS_FCNTL
             result = fcntl (socket, F_SETFL, (value ? O_NONBLOCK : 0) | (fcntl (socket, F_GETFL) & ~O_NONBLOCK));
 #else
             result = ioctl (socket, FIONBIO, & value);
+#endif
 #endif
             break;
 
@@ -368,8 +382,13 @@ enet_socket_shutdown (ENetSocket socket, ENetSocketShutdown how)
 void
 enet_socket_destroy (ENetSocket socket)
 {
-    if (socket != -1)
+    if (socket != -1) {
+#ifdef __MORPHOS__
+      CloseSocket (socket);
+#else
       close (socket);
+#endif
+    }
 }
 
 int

@@ -101,6 +101,10 @@ inline std::string demangleSymbol(const char* symbolname) {
 }
 #endif
 
+#ifdef __MORPHOS__
+unsigned int __stack__ = (1024*1024);
+#endif
+
 void setVideoMode(int displayIndex);
 void realign_buttons();
 
