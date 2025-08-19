@@ -1094,7 +1094,10 @@ void Game::runMainLoop() {
 
         drawScreen();
 
+#if defined(_WIN32) || defined(__MORPHOS__)
+        // Blinking/flashing happens with Linux, at least
         SDL_RenderPresent(renderer);
+#endif
 
         SDL_SetRenderTarget(renderer, nullptr);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
